@@ -5,6 +5,7 @@
     state: latest
   with_items:
     - git
+    - nodejs
     - gcc-c++
     - openssl-devel
 
