@@ -23,6 +23,13 @@
     owner: '{{ ansible_ssh_user }}'
     group: '{{ ansible_ssh_user }}'
 
+- name: make .env file
+  file:
+    path: '/var/www/{{ rails_application }}/shared/.env'
+    mode: 0644
+    owner: '{{ ansible_ssh_user }}'
+    group: '{{ ansible_ssh_user }}'
+
 - name: set unicorn logrotate
   template:
     src: unicorn.j2
