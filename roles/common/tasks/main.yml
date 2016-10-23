@@ -1,0 +1,31 @@
+---
+- name: upgrade all packages
+  yum: name=* state=latest
+
+- name: Set JST timezone
+  file:
+    src: /usr/share/zoneinfo/Asia/Tokyo
+    dest: /etc/localtime
+    state: link
+    force: yes
+
+- name: Set SELinux disabled
+  lineinfile:
+    dest: /etc/sysconfig/selinux
+    regexp: "SELINUX="
+    line: "SELINUX=disabled"
+  tags: common
+
+- name: Install Middlewares
+  yum:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - "@Development tools"
+    - git
+    - libyaml-devel
+    - readline-devel
+    - zlib-devel
+    - libffi-devel
+    - libxml2-devel
+    - libxslt-devel

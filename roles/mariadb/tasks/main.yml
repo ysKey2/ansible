@@ -1,0 +1,31 @@
+---
+- name: install MariaDB
+  yum: name={{item}} state=latest
+  with_items:
+    - mariadb
+    - mariadb-server
+    - mariadb-devel
+    - MySQL-python
+
+- name: set MariaDB server config
+  template: src=server.cnf.j2 dest=/etc/my.cnf.d/server.cnf owner=root group=root mode=0644
+
+- name: set MariaDB client config
+  template: src=client.cnf.j2 dest=/etc/my.cnf.d/client.cnf owner=root group=root mode=0644
+
+- name: MariaDB service on
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+# - name: set password for root user
+#   mysql_user:
+#     name: root
+#     host: localhost
+#     password: "{{ mariadb_root_password }}"
+#
+# - name: Create Database
+#   mysql_db:
+#     name: "{{ mariadb_database }}"
+#     state: present

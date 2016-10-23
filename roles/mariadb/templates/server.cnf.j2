@@ -1,0 +1,54 @@
+[mysqld]
+port            = 3306
+socket          = /var/lib/mysql/mysql.sock
+character-set-server = utf8
+skip-character-set-client-handshake
+
+max_connections = 256
+thread_cache=256
+
+thread_concurrency = 2
+
+skip-external-locking
+key_buffer_size = 16K
+max_allowed_packet = 1M
+table_open_cache = 4
+sort_buffer_size = 64K
+read_buffer_size = 1M
+read_rnd_buffer_size = 256K
+net_buffer_length = 2K
+thread_stack = 240K
+
+interactive_timeout=60
+wait_timeout=60
+
+server-id       = 1
+
+innodb_data_home_dir = /var/lib/mysql
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = /var/lib/mysql
+innodb_buffer_pool_size = 256M
+innodb_log_file_size = 64M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+innodb_file_per_table = 1
+innodb_file_format = Barracuda
+innodb_large_prefix = 1
+
+query_cache_limit = 1M
+query_cache_min_res_unit = 4k
+query_cache_size = 24M
+query_cache_type = 1
+
+slow_query_log = 1
+slow_query_log_file = /var/lib/mysql/mysqld-slow.log
+long_query_time = 0.1
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+default-character-set = utf8

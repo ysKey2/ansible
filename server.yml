@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - common
+    - firewalld
+    - mariadb
+    - nginx
+    - rails
+    - capistrano

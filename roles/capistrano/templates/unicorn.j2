@@ -1,0 +1,15 @@
+/var/www/{{ rails_application }}/shared/log/production.log {
+  daily
+  rotate 60
+  missingok
+  notifempty
+  copytruncate
+  create 0666 app app
+
+  lastaction
+    pid=/var/www/{{ rails_application }}/shared/tmp/pids/unicorn.pid
+    test -s $pid && kill -USR1 "$(cat $pid)"
+  endscript
+  su {{ ansible_ssh_user }} {{ ansible_ssh_user }}
+
+}

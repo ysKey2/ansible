@@ -1,0 +1,20 @@
+---
+- name: add nginx repo
+  copy: src=nginx.repo dest=/etc/yum.repos.d/nginx.repo
+
+- name: install nginx
+  yum: name=nginx enablerepo=nginx state=present
+
+- name: put nginx.conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify: restart nginx
+
+- name: put conf.d/default.conf
+  template: src=rails.conf.j2 dest=/etc/nginx/conf.d/rails.conf
+  notify: restart nginx
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes

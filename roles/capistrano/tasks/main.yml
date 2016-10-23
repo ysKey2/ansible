@@ -1,0 +1,29 @@
+---
+- name: make project main directory
+  file:
+    path: '/var/www/{{ rails_application }}'
+    state: directory
+    mode: 0775
+    owner: '{{ ansible_ssh_user }}'
+    group: '{{ ansible_ssh_user }}'
+
+- name: make project shared directory
+  file:
+    path: '/var/www/{{ rails_application }}/shared/config'
+    state: directory
+    mode: 0775
+    owner: '{{ ansible_ssh_user }}'
+    group: '{{ ansible_ssh_user }}'
+
+- name: set mysql database.yml
+  template:
+    src: database.yml.j2
+    dest: '/var/www/{{ rails_application }}/shared/config/database.yml'
+    mode: 0644
+    owner: '{{ ansible_ssh_user }}'
+    group: '{{ ansible_ssh_user }}'
+
+- name: set unicorn logrotate
+  template:
+    src: unicorn.j2
+    dest: /etc/logrotate.d/unicorn

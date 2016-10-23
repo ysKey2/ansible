@@ -1,0 +1,38 @@
+---
+- name: Install Ruby dev
+  yum:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - git
+    - gcc-c++
+    - openssl-devel
+
+- name: install rbenv
+  git:
+    repo: https://github.com/rbenv/rbenv.git
+    dest: /usr/local/rbenv
+
+- name: install rbenv-build
+  git:
+    repo: https://github.com/rbenv/ruby-build.git
+    dest: /usr/local/rbenv/plugins/ruby-build
+
+- name: set rbenv profile
+  copy:
+    src: rbenv.sh
+    dest: /etc/profile.d/rbenv.sh
+
+- name: check whether a specific version of ruby is installed
+  shell: source /etc/profile.d/rbenv.sh; rbenv versions | grep {{ ruby_version }} | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d ' '
+  register: rbenv_ruby_version
+
+- name: install ruby
+  shell: source /etc/profile.d/rbenv.sh; rbenv install {{ ruby_version }}
+  when: rbenv_ruby_version.stdout != '{{ ruby_version }}'
+
+- name: set global ruby version
+  shell: source /etc/profile.d/rbenv.sh; rbenv global {{ ruby_version }} && rbenv rehash
+
+- name: Bundler install
+  shell: source /etc/profile.d/rbenv.sh; gem install bundler && rbenv rehash

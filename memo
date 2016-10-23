@@ -1,0 +1,21 @@
+# SSH初期セットアップ
+```
+useradd  app -G wheel
+passwd app
+
+su - app
+ssh-keygen -t rsa
+cd .ssh
+touch authorized_keys
+chmod 600 authorized_keys
+vim authorized_keys
+
+exit
+vim /etc/ssh/sshd_config
+PermitRootLogin no
+
+sudo systemctl restart sshd
+```
+
+# mysql_secure_installation
+* ansbileで同等の処理を実装するよりここだけ手動でやるほうが早いので手打ちで

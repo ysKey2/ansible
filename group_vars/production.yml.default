@@ -1,0 +1,6 @@
+---
+database_password: pass
+database_name: app_production
+ruby_version: 2.3.1
+rails_application: app
+server_name: example.com
